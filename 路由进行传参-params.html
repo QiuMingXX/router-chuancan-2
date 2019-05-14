@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+	
+	<!-- 1.安装vue.router 路由模块 -->
+	<script src="vue-router.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div id="app">
+		
+		<!-- <a href="#/login">登录</a>
+		<a href="#/register">注册</a>
+		 -->
+		<!-- router-link的使用 -->
+		
+		<!-- 使用查询字符串进行参数传值 -->
+		<router-link to='/login/12/QM'>登录</router-link>
+		<router-link to='/register'>注册</router-link>
+		
+		
+		<!-- 由 vue-router 提供的元素，专门用来当做占位符的，将来的路由匹配规则 匹配到点到组件就会展示到 router-view里面去
+		我们可以认为它就是一个占位符-->
+		<router-view></router-view>
+    </div>
+</body>
+
+
+<script>
+	
+	// 创建的组件模板对象
+	var login = {
+		template:'<h1>登录组件---{{$route.params.id}}---{{$route.params.name}}</h1>',
+		created(){		//组件的生命周期钩子函数
+			// console.log(this.$route)
+			console.log(this.$route.params.id)
+
+		}
+	}
+	
+	var register = {
+		template:'<h1>注册组件</h1>'
+	}
+	
+	// 2.创建一个路由对象,当导入vue-router包之后,在windows全局对象中,就有了一个路由的构造函数,叫做VueRouter
+	// 在new路由对象的时候,可以为构造函数,传递一个配置对象
+	var routerObj = new VueRouter({
+		//route //这个匹配对象中的route表示 【路由匹配规则】 的意思
+		routes:[		//路由匹配规则
+			// 每个路由规则,都是一个对象,这个规则对象,身上必须有两个属性:
+			// 属性1 是 path ,表示监听,哪个路由地址;
+			// 属性2 是component ,表示,如果路由是前面匹配到的path ,则展示component属性对应的那个组件
+			// component的属性值,必须是一个组件的模板对象,不能是组件的引用名称,  
+			{path:'/',redirect:'login'},		//路由的重定向使用
+			{path:'/login/:id/:name',component:login},
+			{path:'/register',component:register},
+			
+		]
+	});
+	
+    var vm= new Vue({
+        el:"#app",
+        data:{
+
+        },
+        methods:{
+            
+        },
+		router:routerObj	//将路由规则对象 注册到vm实例上, 用来监听 url的地址变化 ,然后展示对应的组件
+    });
+</script>
+</html>
